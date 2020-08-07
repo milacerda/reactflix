@@ -1,19 +1,22 @@
-import { useState } from 'react';
+import {
+  useState,
+} from 'react';
 
 function useForm(valoresIniciais) {
   const [values, setValues] = useState(valoresIniciais);
 
   function setValue(chave, valor) {
+    // chave: nome, descricao, bla, bli
     setValues({
       ...values,
       [chave]: valor, // nome: 'valor'
     });
   }
 
-  function handleChange(event) {
+  function handleChange(infosDoEvento) {
     setValue(
-      event.target.getAttribute('name'),
-      event.target.value,
+      infosDoEvento.target.getAttribute('name'),
+      infosDoEvento.target.value,
     );
   }
 
