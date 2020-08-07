@@ -28,7 +28,9 @@ function CadastroCategoria() {
   }
 
   useEffect(() => {
-    const url = 'http://localhost:8080/categorias';
+    const url = window.location.hostname.includes('localhost')
+      ? 'http://localhost:8080/categorias'
+      : 'https://reactflix-milacerda.herokuapp.com/categorias';
     fetch(url).then(async (resp) => {
       const res = await resp.json();
       setCategorias([
