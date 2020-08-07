@@ -2,35 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
+import useForm from '../../../hooks';
+import URL_BACKEND from '../../../config';
 
 function CadastroCategoria() {
   const valoresIniciais = {
-    nome: '',
+    titulo: '',
     descricao: '',
     cor: '#FFFFFF',
   };
+
+  const {
+    handleChange,
+    values,
+    clearForm,
+  } = useForm(valoresIniciais);
+
   const [categorias, setCategorias] = useState([]);
-  const [values, setValues] = useState(valoresIniciais);
-
-  function setValue(chave, valor) {
-    // chave: nome, descricao, bla, bli
-    setValues({
-      ...values,
-      [chave]: valor, // nome: 'valor'
-    });
-  }
-
-  function handleChange(event) {
-    setValue(
-      event.target.getAttribute('name'),
-      event.target.value,
-    );
-  }
 
   useEffect(() => {
-    const url = window.location.hostname.includes('localhost')
-      ? 'http://localhost:8080/categorias'
-      : 'https://reactflix-milacerda.herokuapp.com/categorias';
+    const url = URL_BACKEND;
     fetch(url).then(async (resp) => {
       const res = await resp.json();
       setCategorias([
@@ -44,7 +35,7 @@ function CadastroCategoria() {
     <PageDefault>
       <h1>
         Cadastro de Categoria:
-        {values.nome}
+        {values.titulo}
       </h1>
 
       <form onSubmit={function handleSubmit(event) {
@@ -54,15 +45,15 @@ function CadastroCategoria() {
           values,
         ]);
 
-        setValues(valoresIniciais);
+        clearForm(valoresIniciais);
       }}
       >
 
         <FormField
           label="Nome da Categoria"
           type="text"
-          name="nome"
-          value={values.nome}
+          name="titulo"
+          value={values.titulo}
           onChange={handleChange}
         />
 
